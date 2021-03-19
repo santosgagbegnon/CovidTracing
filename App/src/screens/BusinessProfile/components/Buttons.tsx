@@ -4,19 +4,20 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface Props {
   title: string;
+  onPress?: () => void;
 }
 
-export const PlainButton = ({ title }: Props) => {
+export const PlainButton = ({ title, onPress }: Props) => {
   return (
-    <TouchableOpacity style={plainButtonStyle.button}>
+    <TouchableOpacity style={plainButtonStyle.button} onPress={onPress}>
       <Text style={plainButtonStyle.text}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
-export const PrimaryButton = ({ title }: Props) => {
+export const PrimaryButton = ({ title, onPress }: Props) => {
   return (
-    <TouchableOpacity style={primaryButtonStyle.button}>
+    <TouchableOpacity style={primaryButtonStyle.button} onPress={onPress}>
       <Text style={primaryButtonStyle.text}>{title}</Text>
     </TouchableOpacity>
   );

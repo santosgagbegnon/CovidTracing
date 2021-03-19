@@ -1,9 +1,11 @@
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { PrimaryButton, PlainButton } from "./components";
 
 export default function BusinessProfileView() {
+  const navigation = useNavigation();
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
@@ -15,7 +17,10 @@ export default function BusinessProfileView() {
         <Text>150 Elgin St.</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title="Scan customers" />
+        <PrimaryButton
+          title="Scan customers"
+          onPress={() => navigation.navigate("QRScanner")}
+        />
         <PrimaryButton title="Manually log customers" />
       </View>
     </View>
