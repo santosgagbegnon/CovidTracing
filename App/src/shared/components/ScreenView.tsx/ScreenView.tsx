@@ -12,7 +12,7 @@ export default function ScreenView({
   ...restOfViewProps
 }: Props) {
   return (
-    <SafeAreaView {...restOfViewProps} style={[style, styles.screenView]}>
+    <SafeAreaView {...restOfViewProps} style={[styles.screenView, style]}>
       {children}
     </SafeAreaView>
   );
