@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useRoute } from "@react-navigation/core";
 import { BarCodeScanner, PermissionStatus } from "expo-barcode-scanner";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
@@ -6,6 +6,8 @@ import { PrimaryButton, PlainButton } from "./components";
 
 export default function BusinessProfileView() {
   const navigation = useNavigation();
+  const route = useRoute ();
+
 
   const [
     hasDeniedCameraPermission,
@@ -40,6 +42,7 @@ export default function BusinessProfileView() {
         </View>
         <Text>Dirty Bird Waffles</Text>
         <Text>150 Elgin St.</Text>
+        <Text> {JSON.stringify (route.params===undefined ? {user:undefined} : route.params )  }</Text>
       </View>
       <View style={styles.buttonContainer}>
         <PrimaryButton title="Scan customers" onPress={navigateToQRScanner} />
