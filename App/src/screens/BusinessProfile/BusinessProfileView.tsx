@@ -3,6 +3,7 @@ import { BarCodeScanner, PermissionStatus } from "expo-barcode-scanner";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { PrimaryButton, PlainButton } from "./components";
+import { API_KEY } from "@env";
 
 export default function BusinessProfileView() {
   const navigation = useNavigation();
@@ -18,6 +19,8 @@ export default function BusinessProfileView() {
       setHasDeniedCameraPermission(status === PermissionStatus.DENIED);
     })();
   });
+
+  console.log(`Console ${API_KEY}`);
 
   return (
     <View style={{ flex: 1 }}>
