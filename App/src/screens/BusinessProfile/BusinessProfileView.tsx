@@ -19,6 +19,18 @@ export default function BusinessProfileView() {
     })();
   });
 
+  const navigateToQRScanner = () => {
+    if (hasDeniedCameraPermission) {
+      alert(`Please go to your settings and give expo camera permissions.`);
+    } else {
+      navigation.navigate("QRScanner");
+    }
+  };
+
+  const navigateToManuallyLog = () => {
+    navigation.navigate("ManuallyLog");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
@@ -30,19 +42,11 @@ export default function BusinessProfileView() {
         <Text>150 Elgin St.</Text>
       </View>
       <View style={styles.buttonContainer}>
+        <PrimaryButton title="Scan customers" onPress={navigateToQRScanner} />
         <PrimaryButton
-          title="Scan customers"
-          onPress={() => {
-            if (hasDeniedCameraPermission) {
-              alert(
-                `Please go to your settings and give expo camera permissions.`
-              );
-            } else {
-              navigation.navigate("QRScanner");
-            }
-          }}
+          title="Manually log customers"
+          onPress={navigateToManuallyLog}
         />
-        <PrimaryButton title="Manually log customers" />
       </View>
     </View>
   );
