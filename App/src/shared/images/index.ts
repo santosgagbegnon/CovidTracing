@@ -1,0 +1,1 @@
+export const backArrow = require('./back-arrow.png');

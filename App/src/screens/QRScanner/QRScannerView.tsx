@@ -1,8 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useLayoutEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { BarCodeScanner, BarCodeEvent } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/core";
 import { PrimaryButton } from "../BusinessProfile/components";
+
+const HEADER_HEIGHT = 75;
 
 export const QRScannerView = () => {
   const navigation = useNavigation();
@@ -44,12 +46,7 @@ export const QRScannerView = () => {
               visit.
             </Text>
           </View>
-          <PrimaryButton
-            title="Manually log customer"
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
+          <PrimaryButton title="Manually log customer" onPress={() => {}} />
         </View>
       </BarCodeScanner>
     </View>
@@ -70,6 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+    marginTop: HEADER_HEIGHT + 30,
   },
   informationText: {
     color: "#fff",

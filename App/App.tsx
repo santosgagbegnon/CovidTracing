@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TemporaryHomeScreen } from "./src/screens/TemporaryHome";
 import { createStackNavigator } from "@react-navigation/stack";
 import BusinessNavigator from "./src/navgiation/BusinessNavigator";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -21,7 +22,13 @@ function HomeStackNavigator() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => {
+          return {
+            tabBarVisible: getFocusedRouteNameFromRoute(route) !== "QRScanner",
+          };
+        }}
+      >
         <Tab.Screen name="Home" component={BusinessNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
