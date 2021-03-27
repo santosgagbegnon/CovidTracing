@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -9,18 +9,24 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { PlainButton } from "../BusinessProfile/components";
+import Toast from "react-native-toast-message";
 
 const ManuallyLogView = () => {
   const [customerName, setCustomerName] = useState("");
   const [customerNumber, setCustomerNumber] = useState("");
 
-  const logCustomer = () => {
+  const logCustomer = useCallback(() => {
     Keyboard.dismiss();
+    Toast.show({
+      text1: "Customer logged",
+      position: "bottom",
+      type: "success",
+    });
 
     console.log(
       `New customer - ${customerName.trim()} & ${customerNumber.trim()}`
     );
-  };
+  }, []);
 
   const onNameChange = (
     event: NativeSyntheticEvent<TextInputTextInputEventData>

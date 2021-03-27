@@ -1,12 +1,12 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TemporaryHomeScreen } from "./src/screens/TemporaryHome";
 import { createStackNavigator } from "@react-navigation/stack";
 import BusinessNavigator from "./src/navgiation/BusinessNavigator";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -31,6 +31,7 @@ export default function App() {
       >
         <Tab.Screen name="Home" component={BusinessNavigator} />
       </Tab.Navigator>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </NavigationContainer>
   );
 }
