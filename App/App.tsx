@@ -7,6 +7,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import BusinessNavigator from "./src/navgiation/BusinessNavigator";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { Ionicons } from "@expo/vector-icons";
+import { CustomerHistoryScreen } from "./src/screens/CustomerHistory";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -29,7 +31,27 @@ export default function App() {
           };
         }}
       >
-        <Tab.Screen name="Home" component={BusinessNavigator} />
+        <Tab.Screen
+          name="Home"
+          component={BusinessNavigator}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => {
+              return (
+                <Ionicons color={color} size={size} name="person-circle" />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Customers"
+          component={CustomerHistoryScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => {
+              return <Ionicons color={color} size={size} name="list-outline" />;
+            },
+          }}
+        />
       </Tab.Navigator>
       <Toast ref={(ref) => Toast.setRef(ref)} />
     </NavigationContainer>
