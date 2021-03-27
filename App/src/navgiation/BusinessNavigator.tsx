@@ -4,6 +4,7 @@ import { BusinessProfileScreen } from "../screens/BusinessProfile";
 import { TemporaryHomeScreen } from "../screens/TemporaryHome";
 import { QRScannerScreen } from "../screens/QRScanner";
 import { BackButton } from "../shared/components/BackButton/BackButton";
+import { ManuallyLogScreen } from "../screens/ManuallyLog";
 
 const Stack = createStackNavigator();
 
@@ -12,6 +13,11 @@ export default function BusinessNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="TemporaryHome" component={TemporaryHomeScreen} />
       <Stack.Screen name="BusinessProfile" component={BusinessProfileScreen} />
+      <Stack.Screen
+        name="ManuallyLog"
+        component={ManuallyLogScreen}
+        options={{ title: "Log Customers" }}
+      />
       <Stack.Screen
         name="QRScanner"
         component={QRScannerScreen}

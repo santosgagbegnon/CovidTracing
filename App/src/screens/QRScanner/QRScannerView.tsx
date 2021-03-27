@@ -74,6 +74,10 @@ export const QRScannerView = () => {
     });
   };
 
+  const navigateToManuallyLog = () => {
+    navigation.navigate("ManuallyLog");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <BarCodeScanner
@@ -99,7 +103,7 @@ export const QRScannerView = () => {
           </View>
           <PrimaryButton
             title="Manually log customer"
-            onPress={animateResult}
+            onPress={navigateToManuallyLog}
           />
         </View>
       </BarCodeScanner>
