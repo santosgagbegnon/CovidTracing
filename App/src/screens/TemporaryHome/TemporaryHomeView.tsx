@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/core";
 import React from "react";
 import { View, Text, Button } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -16,9 +16,12 @@ function NavigationButton({ title, name }: NavigationButtonProps) {
 
 export default function TemporaryHomeView() {
   const navigation = useNavigation();
+  const route = useRoute ();
   return (
     <View>
       <ScrollView>
+        <Text> {JSON.stringify (route.params)  }</Text>
+  
         <NavigationButton title="Business Profile" name="BusinessProfile" />
       </ScrollView>
     </View>

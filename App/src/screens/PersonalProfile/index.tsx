@@ -1,0 +1,1 @@
+export {default as PersonalProfileScreen} from './PersonalProfileScreen'

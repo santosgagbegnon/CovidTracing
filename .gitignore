@@ -1,3 +1,6 @@
+#.Env
+.env
+
 # Expo
 .expo
 __generated__
