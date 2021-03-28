@@ -11,8 +11,11 @@ const Stack = createStackNavigator();
 export default function BusinessNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="TemporaryHome" component={TemporaryHomeScreen} />
-      <Stack.Screen name="BusinessProfile" component={BusinessProfileScreen} />
+      <Stack.Screen
+        name="BusinessProfile"
+        component={BusinessProfileScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="ManuallyLog"
         component={ManuallyLogScreen}
