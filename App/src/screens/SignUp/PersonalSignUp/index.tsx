@@ -73,7 +73,7 @@ function SignUpPassword () {
 
 
     return (
-        <SignUp  type={"Create Account"} topic={"password"} pressEvent={ onCreateAccount } keyBoardType="default"/>
+        <SignUp  type={"Create Account"} secureText={true} topic={"password"} pressEvent={ onCreateAccount } keyBoardType="default"/>
     )
 }
 

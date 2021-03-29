@@ -100,6 +100,7 @@ function SignUpPassword() {
     <SignUp
       type={"Create Account"}
       topic={"password"}
+      secureText={true}
       pressEvent={onCreateAccount}
       keyBoardType="default"
     />

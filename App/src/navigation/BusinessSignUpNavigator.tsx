@@ -14,7 +14,11 @@ const Stack = createStackNavigator();
 export default function BusinessSignUpNavigator() {
   const navigation = useNavigation();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: "",
+      }}
+    >
       <Stack.Screen name="SignUpBusinessName" component={SignUpBusinessName} />
       <Stack.Screen name="SignUpLocation" component={SignUpLocation} />
       <Stack.Screen name="SignUpEmail" component={SignUpEmail} />
