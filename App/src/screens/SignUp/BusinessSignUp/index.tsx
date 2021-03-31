@@ -2,6 +2,10 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { SignUp } from "../components/SignUpScreen";
 import { firebase } from "../../../firebase/config";
+import { UserInfo } from "../../../types/types";
+import { useSignInStatus } from "../../../context/SignInContext";
+import Toast from "react-native-toast-message";
+import { Keyboard } from "react-native";
 
 function SignUpBusinessName() {
   return (
@@ -49,23 +53,27 @@ function SignUpNumber() {
 
 function SignUpPassword() {
   let navigation = useNavigation();
-
+  const {
+    userInfo,
+    isSignedIn,
+    toggleSignIn,
+    setUserInfo,
+  } = useSignInStatus();
   function onCreateAccount(data: any) {
     let { email, password, businessname, location, phonenumber } = data;
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
-        const user = response.user ? response.user : { uid: undefined };
+        const uid: string | undefined = response?.user?.uid;
 
-        if (isObjectEmpty(user)) {
+        if (uid === undefined) {
           new Error(
-            "Error occured when fethcing response from firebase.auth.createUserEmailAndPassword. repsonse.user is null. \nPersonalSignUp.tsx line 45"
+            "Error occured when fetching response from firebase.auth.createUserEmailAndPassword. repsonse.user.uid is undefined. \nPersonalSignUp.tsx line 45"
           );
         }
-        let uid = user.uid;
 
-        const data = {
+        const data: UserInfo = {
           id: uid,
           accountType: "business",
           email,
@@ -78,10 +86,17 @@ function SignUpPassword() {
           .doc(uid)
           .set(data)
           .then(() => {
-            alert(
-              `Succsesfully, registered the following... \nuser: ${email}\nbusinessname: ${businessname}\nlocation: ${location}\nphonenumber: ${phonenumber}\naccountType: business`
-            );
-            navigation.navigate("BusinessHome", { user: data });
+            Keyboard.dismiss(); //keyboard would often persist during screen nav if user didnt press return
+            setUserInfo(data);
+            toggleSignIn({ signInStatus: true });
+            Toast.show({
+              type: "success",
+              position: "top",
+              text1: "Registration Success",
+              text2: `${data.email} registration was successful`,
+            });
+            //appropriate screen nav is handled in AppNavigation
+            
           })
           .catch((error) => {
             alert(error);
@@ -106,11 +121,6 @@ function SignUpPassword() {
     />
   );
 }
-
-function isObjectEmpty(obj: {}) {
-  return Object.keys(obj).length === 0;
-}
-
 export {
   SignUpBusinessName,
   SignUpLocation,
