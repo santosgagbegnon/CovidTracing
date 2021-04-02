@@ -4,10 +4,15 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PrimaryButton, PlainButton } from "./components";
+import { useSignInStatus } from "../../context/SignInContext";
 
 export default function BusinessProfileView() {
   const navigation = useNavigation();
-  const route = useRoute();
+  const {
+    toggleSignIn,
+    userInfo,
+    setUserInfo,
+  } = useSignInStatus();
 
   const [
     hasDeniedCameraPermission,
@@ -34,7 +39,9 @@ export default function BusinessProfileView() {
   };
 
   const signOut = () => {
-    navigation.navigate("Onboarding");
+    setUserInfo(undefined);
+    toggleSignIn({ signInStatus: false });
+    //appropriate screen nav is handled in AppNavigation
   };
 
   return (
@@ -44,13 +51,9 @@ export default function BusinessProfileView() {
           <Text style={styles.title}>My Business</Text>
           <PlainButton title="Sign out" onPress={signOut} />
         </View>
-        <Text>Dirty Bird Waffles</Text>
-        <Text>150 Elgin St.</Text>
-        <Text>
-          {JSON.stringify(
-            route.params === undefined ? { user: undefined } : route.params
-          )}
-        </Text>
+        <Text>{userInfo?.businessname?.valueOf ()}</Text>
+        <Text>{userInfo?.location?.valueOf ()}</Text>
+        <Text>{userInfo?.firstname?.valueOf ()}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <PrimaryButton title="Scan customers" onPress={navigateToQRScanner} />

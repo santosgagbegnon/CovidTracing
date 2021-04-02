@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
+import { Icon } from "react-native-elements";
+
 import {
   SignUpFirstName,
   SignUpLastName,
@@ -14,7 +16,11 @@ const Stack = createStackNavigator();
 export default function PersonalSignUpNavigator() {
   const navigation = useNavigation();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: "",
+      }}
+    >
       <Stack.Screen name="SignUpFirstName" component={SignUpFirstName} />
       <Stack.Screen name="SignUpLastName" component={SignUpLastName} />
       <Stack.Screen name="SignUpEmail" component={SignUpEmail} />

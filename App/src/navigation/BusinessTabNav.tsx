@@ -41,7 +41,7 @@ export default function BusinessTabNav() {
                     }}
                 />
             </Tab.Navigator>
-            <Toast ref={(ref) => Toast.setRef(ref)} />
+            
         </React.Fragment>
     );
 }
