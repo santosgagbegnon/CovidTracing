@@ -1,6 +1,6 @@
 import {firebase } from "../../firebase/config"
 
-export const useScanner = (businessID: string) => {    
+export const useLogger = (businessID: string) => {    
     const logExistingCustomer = (customerID: string) => {
         if (customerID.includes('//') || businessID.includes('//')) return false
 
@@ -13,6 +13,29 @@ export const useScanner = (businessID: string) => {
         })
         .catch(() => {
             return false
+        })
+    }
+
+    const logNewCustomer = (firstName: string, lastName: string, phoneNumber: string) => {
+        const businessInfo = {id: businessID, timestamp: Date.now()}
+        const newCustomer = {firstname: firstName, lastname: lastName, phonenumber: phoneNumber, accountType: 'personal', email: '-', visits: [businessInfo]}
+        return updateNewCustomerReference(newCustomer)
+        .then((cusomterID) => {
+            return updateBusinessReference(businessID, {id: cusomterID, timestamp: Date.now()}).catch(() => {return false})
+        })
+        .catch(()=> {
+            return false
+        })
+    }
+
+    const updateNewCustomerReference = (customerInfo: object) => {
+        const userRef = firebase.firestore().collection('users')
+        return userRef
+        .add(customerInfo)
+        .then((customerRef) => {
+            return customerRef.update({id: customerRef.id}).then(() => {
+                return customerRef.id
+            })
         })
     }
 
@@ -39,5 +62,5 @@ export const useScanner = (businessID: string) => {
         })
     }
 
-    return {logExistingCustomer}
+    return {logExistingCustomer, logNewCustomer}
 }

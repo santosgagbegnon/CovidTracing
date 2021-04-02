@@ -4,15 +4,15 @@ import { BarCodeScanner, BarCodeEvent } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/core";
 import { PrimaryButton } from "../BusinessProfile/components";
 import { successIcon, failedIcon } from "../../shared/images";
-import {useScanner} from "./useScanner";
+import { useLogger } from "../../shared/hooks/useLogger";
 
 const HEADER_HEIGHT = 75;
 
 interface Props {
-  businessID: string
+  businessID: string;
 }
 
-export const QRScannerView = ({businessID}: Props) => {
+export const QRScannerView = ({ businessID }: Props) => {
   const navigation = useNavigation();
 
   const [hasPermission, setHasPermission] = useState<boolean>();
@@ -21,11 +21,11 @@ export const QRScannerView = ({businessID}: Props) => {
   const sizeAnimation = useRef(new Animated.Value(30)).current;
   const opacityAnimation = useRef(new Animated.Value(0)).current;
 
-  const {logExistingCustomer} = useScanner(businessID)
+  const { logExistingCustomer } = useLogger(businessID);
 
   const [resultIcon, setResultIcon] = useState(successIcon);
 
-  const [successfulCustomers, setSuccessfulCustomers] = useState<string[]>([])
+  const [successfulCustomers, setSuccessfulCustomers] = useState<string[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -43,16 +43,16 @@ export const QRScannerView = ({businessID}: Props) => {
 
   const onBarCodeScanned = async ({ type, data: customerID }: BarCodeEvent) => {
     if (successfulCustomers.includes(customerID)) {
-      return
+      return;
     }
     setScanned(true);
-    const success = await logExistingCustomer(customerID)
+    const success = await logExistingCustomer(customerID);
 
-    setResultIcon(success ? successIcon : failedIcon)
-    animateResult()
+    setResultIcon(success ? successIcon : failedIcon);
+    animateResult();
 
     if (success) {
-      setSuccessfulCustomers((prev) => prev.concat([customerID]))
+      setSuccessfulCustomers((prev) => prev.concat([customerID]));
     }
   };
 
@@ -88,7 +88,7 @@ export const QRScannerView = ({businessID}: Props) => {
       if (finish) {
         sizeAnimation.setValue(30);
         opacityAnimation.setValue(0);
-        setScanned(false)
+        setScanned(false);
       }
     });
   };
