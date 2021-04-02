@@ -53,7 +53,7 @@ export default function BusinessProfileView() {
         </View>
         <Text>{userInfo?.businessname?.valueOf ()}</Text>
         <Text>{userInfo?.location?.valueOf ()}</Text>
-        <Text>{userInfo?.firstname?.valueOf ()}</Text>
+        <Text>{userInfo?.id?.valueOf ()}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <PrimaryButton title="Scan customers" onPress={navigateToQRScanner} />
