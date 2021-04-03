@@ -12,6 +12,7 @@ export default function PersonalProfileScreen() {
     lastName: userInfo?.lastname ?? "",
     email: userInfo?.email ?? "",
     phoneNumber: userInfo?.phonenumber ?? "",
+    id: userInfo?.id,
   };
 
   return (

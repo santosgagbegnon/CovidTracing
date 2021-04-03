@@ -5,12 +5,14 @@ import { ScrollView } from "react-native-gesture-handler";
 import { PlainButton } from "../../shared/components/Buttons";
 import { useSignInStatus } from "../../context/SignInContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import QRCode from "react-native-qrcode-svg";
 
 interface Props {
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
+  id: string;
 }
 
 export default function PersonalProfileView({
@@ -18,6 +20,7 @@ export default function PersonalProfileView({
   lastName,
   email,
   phoneNumber,
+  id,
 }: Props) {
   const { toggleSignIn, setUserInfo } = useSignInStatus();
 
@@ -27,7 +30,13 @@ export default function PersonalProfileView({
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        justifyContent: "space-between",
+        paddingHorizontal: 16,
+      }}
+    >
       <View style={styles.header}>
         <View style={styles.titleAndButtonContainer}>
           <Text style={styles.title}>My Profile</Text>
@@ -37,17 +46,21 @@ export default function PersonalProfileView({
         <Text>{email}</Text>
         <Text>{normalize(phoneNumber)}</Text>
       </View>
-      <Text>
-        Present this QR code to businesses using Huella to instantly share your
-        contact information.
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <QRCode value={id} size={200} />
+      </View>
+      <Text style={{ textAlign: "center" }}>
+        Present this QR code to businesses using{" "}
+        <Text style={styles.bold}>Huella</Text> to instantly share your contact
+        information.
       </Text>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    paddingHorizontal: 16,
+  bold: {
+    fontWeight: "bold",
   },
   titleAndButtonContainer: {
     flexDirection: "row",
