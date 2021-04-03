@@ -1,12 +1,15 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import { useSignInStatus } from "../../context/SignInContext";
 import { ScreenView } from "../../shared/components";
 import { CustomerHistoryView } from "./CustomerHistoryView";
 
 export default function CustomersScreen() {
+  const { userInfo } = useSignInStatus();
+
   return (
     <ScreenView style={styles.screenView}>
-      <CustomerHistoryView />
+      <CustomerHistoryView businessID={userInfo?.id ?? ""} />
     </ScreenView>
   );
 }

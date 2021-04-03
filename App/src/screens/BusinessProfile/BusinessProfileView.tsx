@@ -6,13 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { PrimaryButton, PlainButton } from "./components";
 import { useSignInStatus } from "../../context/SignInContext";
 
-export default function BusinessProfileView() {
+interface Props {
+  name: string;
+  location: string;
+}
+
+export default function BusinessProfileView({ name, location }: Props) {
   const navigation = useNavigation();
-  const {
-    toggleSignIn,
-    userInfo,
-    setUserInfo,
-  } = useSignInStatus();
+  const { toggleSignIn, setUserInfo } = useSignInStatus();
 
   const [
     hasDeniedCameraPermission,
@@ -51,9 +52,8 @@ export default function BusinessProfileView() {
           <Text style={styles.title}>My Business</Text>
           <PlainButton title="Sign out" onPress={signOut} />
         </View>
-        <Text>{userInfo?.businessname?.valueOf ()}</Text>
-        <Text>{userInfo?.location?.valueOf ()}</Text>
-        <Text>{userInfo?.firstname?.valueOf ()}</Text>
+        <Text>{name}</Text>
+        <Text>{location}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <PrimaryButton title="Scan customers" onPress={navigateToQRScanner} />

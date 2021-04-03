@@ -3,11 +3,16 @@ import { View, Text, StyleSheet, Animated } from "react-native";
 import { BarCodeScanner, BarCodeEvent } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/core";
 import { PrimaryButton } from "../BusinessProfile/components";
-import { successIcon } from "../../shared/images";
+import { successIcon, failedIcon } from "../../shared/images";
+import { useLogger } from "../../shared/hooks/useLogger";
 
 const HEADER_HEIGHT = 75;
 
-export const QRScannerView = () => {
+interface Props {
+  businessID: string;
+}
+
+export const QRScannerView = ({ businessID }: Props) => {
   const navigation = useNavigation();
 
   const [hasPermission, setHasPermission] = useState<boolean>();
@@ -15,6 +20,12 @@ export const QRScannerView = () => {
 
   const sizeAnimation = useRef(new Animated.Value(30)).current;
   const opacityAnimation = useRef(new Animated.Value(0)).current;
+
+  const { logExistingCustomer } = useLogger(businessID);
+
+  const [resultIcon, setResultIcon] = useState(successIcon);
+
+  const [successfulCustomers, setSuccessfulCustomers] = useState<string[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -30,12 +41,19 @@ export const QRScannerView = () => {
     }
   }, [hasPermission]);
 
-  const onBarCodeScanned = ({ type, data: uuid }: BarCodeEvent) => {
+  const onBarCodeScanned = async ({ type, data: customerID }: BarCodeEvent) => {
+    if (successfulCustomers.includes(customerID)) {
+      return;
+    }
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${uuid}`);
-    // Get customer info from users/uuid
-    // Log business informaiton in users/uuid (eg. visits.append({businessName, address timestmap}))
-    // Log customer informaiton in users/businessUUID (eg. visits.append({firstName, LastName, number, timestmap}))
+    const success = await logExistingCustomer(customerID);
+
+    setResultIcon(success ? successIcon : failedIcon);
+    animateResult();
+
+    if (success) {
+      setSuccessfulCustomers((prev) => prev.concat([customerID]));
+    }
   };
 
   const animateResult = () => {
@@ -70,6 +88,7 @@ export const QRScannerView = () => {
       if (finish) {
         sizeAnimation.setValue(30);
         opacityAnimation.setValue(0);
+        setScanned(false);
       }
     });
   };
@@ -93,7 +112,7 @@ export const QRScannerView = () => {
           </View>
           <View style={styles.confirmationContainer}>
             <Animated.Image
-              source={successIcon}
+              source={resultIcon}
               style={{
                 width: sizeAnimation,
                 height: sizeAnimation,
