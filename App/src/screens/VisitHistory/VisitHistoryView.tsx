@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, StyleSheet, Text, RefreshControl } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { View, StyleSheet, Text, RefreshControl, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CustomHistoryItem, useCustomerHistory } from "./useCustomerHistory";
+import { useVisitHistory, VisitHistoryItem } from "./useVisitHistory";
 
 interface Props {
-  businessID: string;
+  customerID: string;
 }
 const Sepearator = () => {
   return (
@@ -18,28 +17,30 @@ const Sepearator = () => {
     />
   );
 };
-export const CustomerHistoryView = ({ businessID }: Props) => {
-  const { fetchCustomerHistory } = useCustomerHistory(businessID);
+export const VisitHistoryView = ({ customerID }: Props) => {
+  const { fetchVisitHistory } = useVisitHistory(customerID);
 
-  const [customers, setCustomers] = useState<CustomHistoryItem[]>([]);
+  const [visits, setVisits] = useState<VisitHistoryItem[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
-      const customers = await fetchCustomerHistory();
-      setCustomers(customers);
+      console.log("here");
+      const visits = await fetchVisitHistory();
+      setVisits(visits);
       setRefreshing(false);
     })();
   }, []);
 
   const onRefresh = useCallback(async () => {
+    console.log("here2");
     setRefreshing(true);
-    const customers = await fetchCustomerHistory();
-    setCustomers(customers);
+    const visits = await fetchVisitHistory();
+    setVisits(visits);
     setRefreshing(false);
   }, []);
 
-  const renderItem = ({ item }: { item: CustomHistoryItem }) => {
+  const renderItem = ({ item }: { item: VisitHistoryItem }) => {
     const hour = item.timestamp.toLocaleTimeString([], {
       hour: "numeric",
       minute: "numeric",
@@ -52,10 +53,11 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
     return (
       <View style={styles.itemContainer}>
         <View style={styles.customerTextContainer}>
-          <Text style={styles.customerText}>
-            {item.firstName + " " + item.lastName}
+          <Text style={styles.customerText}>{item.businessName}</Text>
+          <Text style={styles.secondaryText}>{item.location}</Text>
+          <Text style={styles.secondaryText}>
+            {normalize(item.phoneNumber)}
           </Text>
-          <Text style={styles.customerText}>{normalize(item.phoneNumber)}</Text>
         </View>
         <Text>{hour + " EST"}</Text>
         <Text>{monthAndYear}</Text>
@@ -66,7 +68,7 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <FlatList
-        data={customers}
+        data={visits}
         refreshing={refreshing}
         onRefresh={onRefresh}
         refreshControl={
@@ -79,7 +81,7 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
         ListHeaderComponent={() => {
           return (
             <View style={styles.header}>
-              <Text style={styles.title}>Customer History</Text>
+              <Text style={styles.title}>Visit History</Text>
             </View>
           );
         }}
@@ -108,6 +110,9 @@ const styles = StyleSheet.create({
   },
   customerText: {
     fontWeight: "bold",
+  },
+  secondaryText: {
+    color: "#A1A1A1",
   },
   itemContainer: {
     paddingHorizontal: 16,
