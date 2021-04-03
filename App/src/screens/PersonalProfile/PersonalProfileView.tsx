@@ -1,7 +1,5 @@
-import { useNavigation, useRoute } from "@react-navigation/core";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { PlainButton } from "../../shared/components/Buttons";
 import { useSignInStatus } from "../../context/SignInContext";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -37,7 +35,7 @@ export default function PersonalProfileView({
         paddingHorizontal: 16,
       }}
     >
-      <View style={styles.header}>
+      <View>
         <View style={styles.titleAndButtonContainer}>
           <Text style={styles.title}>My Profile</Text>
           <PlainButton title="Sign out" onPress={signOut} />

@@ -30,7 +30,7 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
       setCustomers(customers);
       setRefreshing(false);
     })();
-  });
+  }, []);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -57,10 +57,8 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
           </Text>
           <Text style={styles.customerText}>{normalize(item.phoneNumber)}</Text>
         </View>
-        <View style={styles.timeContainer}>
-          <Text>{hour + " EST"}</Text>
-          <Text>{monthAndYear}</Text>
-        </View>
+        <Text>{hour + " EST"}</Text>
+        <Text>{monthAndYear}</Text>
       </View>
     );
   };
@@ -110,12 +108,6 @@ const styles = StyleSheet.create({
   },
   customerText: {
     fontWeight: "bold",
-  },
-  timeContainer: {},
-  buttonContainer: {
-    flex: 1,
-    alignItems: "stretch",
-    justifyContent: "center",
   },
   itemContainer: {
     paddingHorizontal: 16,
