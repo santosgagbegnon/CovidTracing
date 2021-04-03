@@ -7,6 +7,7 @@ import BusinessSignUpNavigator from "./BusinessSignUpNavigator";
 import { PersonalProfileScreen } from "../screens/PersonalProfile";
 import BusinessTabNav from "./BusinessTabNav";
 import { useSignInStatus } from "../context/SignInContext";
+import PersonalTabNav from "./PersonalTabNav";
 
 const Stack = createStackNavigator();
 
@@ -29,7 +30,7 @@ export default function AppNavigator() {
     userInfo?.accountType === "business" ? ( //if userInfo exists and the accountType is business then provide me the businessProfile screen else the personalProfile screen
       <Stack.Screen name="BusinessHome" component={BusinessTabNav} />
     ) : (
-      <Stack.Screen name="PersonalHome" component={PersonalProfileScreen} />
+      <Stack.Screen name="PersonalHome" component={PersonalTabNav} />
     );
 
   return (

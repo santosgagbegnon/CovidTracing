@@ -1,22 +1,15 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useSignInStatus } from "../../context/SignInContext";
-import { ScreenView } from "../../shared/components/";
-import PersonalProfileView from "./PersonalProfileView";
+import { ScreenView } from "../../shared/components";
+import { VisitHistoryView } from "./VisitHistoryView";
 
-export default function PersonalProfileScreen() {
+export default function VisitHistoryScreen() {
   const { userInfo } = useSignInStatus();
-
-  const props = {
-    firstName: userInfo?.firstname ?? "",
-    lastName: userInfo?.lastname ?? "",
-    email: userInfo?.email ?? "",
-    phoneNumber: userInfo?.phonenumber ?? "",
-  };
 
   return (
     <ScreenView style={styles.screenView}>
-      <PersonalProfileView {...props} />
+      <VisitHistoryView customerID={userInfo?.id ?? ""} />
     </ScreenView>
   );
 }
