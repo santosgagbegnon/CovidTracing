@@ -2,6 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, Text, RefreshControl } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import { PrimaryButton } from "../../shared/components/Buttons";
+import { CustomerCell } from "./components";
 import { CustomHistoryItem, useCustomerHistory } from "./useCustomerHistory";
 
 interface Props {
@@ -19,10 +22,13 @@ const Sepearator = () => {
   );
 };
 export const CustomerHistoryView = ({ businessID }: Props) => {
-  const { fetchCustomerHistory } = useCustomerHistory(businessID);
+  const { fetchCustomerHistory, sendEmail } = useCustomerHistory(businessID);
 
   const [customers, setCustomers] = useState<CustomHistoryItem[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(true);
+  const [checkedEmails, setCheckedEmails] = useState<
+    { email: string; timestamp: Date }[]
+  >([]);
 
   useEffect(() => {
     (async () => {
@@ -39,27 +45,50 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
     setRefreshing(false);
   }, []);
 
+  const onPressSendEmail = () => {
+    console.log(checkedEmails);
+    // This will becomes const success = await sendEmail(checkedEmails)
+    const success = sendEmail(checkedEmails.map((customer) => customer.email));
+
+    if (success) {
+      Toast.show({
+        text1: "Email sent",
+        position: "top",
+        type: "success",
+      });
+    } else {
+      Toast.show({
+        text1: "Failed to send email",
+        position: "top",
+        type: "error",
+      });
+    }
+    setCheckedEmails([]);
+  };
+
   const renderItem = ({ item }: { item: CustomHistoryItem }) => {
-    const hour = item.timestamp.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "numeric",
-    });
-    const monthAndYear = item.timestamp.toLocaleDateString("en-US", {
-      year: "numeric",
-      day: "numeric",
-      month: "long",
-    });
+    const emailAndTimestamp = { email: item.email, timestamp: item.timestamp };
+    console.log(checkedEmails, emailAndTimestamp);
     return (
-      <View style={styles.itemContainer}>
-        <View style={styles.customerTextContainer}>
-          <Text style={styles.customerText}>
-            {item.firstName + " " + item.lastName}
-          </Text>
-          <Text style={styles.customerText}>{normalize(item.phoneNumber)}</Text>
-        </View>
-        <Text>{hour + " EST"}</Text>
-        <Text>{monthAndYear}</Text>
-      </View>
+      <CustomerCell
+        checked={checkedEmails.some(
+          (emails) => emails.timestamp == item.timestamp
+        )}
+        customer={item}
+        onPress={() => {
+          if (
+            !checkedEmails.some((emails) => emails.timestamp == item.timestamp)
+          ) {
+            setCheckedEmails((prev) => prev.concat([emailAndTimestamp]));
+          } else {
+            setCheckedEmails((prev) =>
+              prev.filter((current) => {
+                return current.timestamp !== emailAndTimestamp.timestamp;
+              })
+            );
+          }
+        }}
+      />
     );
   };
 
@@ -84,6 +113,11 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
           );
         }}
       />
+      {checkedEmails.length > 0 && (
+        <View style={{ position: "absolute", bottom: 0, right: 0, left: 0 }}>
+          <PrimaryButton title="Send email alert" onPress={onPressSendEmail} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -99,30 +133,8 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     alignItems: "center",
   },
-  customerTextContainer: {
-    paddingBottom: 16,
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
   },
-  customerText: {
-    fontWeight: "bold",
-  },
-  itemContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-  },
 });
-
-function normalize(phone: string) {
-  phone = phone.replace(/[^\d]/g, "");
-
-  //check if number length equals to 10
-  if (phone.length == 10) {
-    //reformat and return phone number
-    return phone.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
-  }
-
-  return phone;
-}
