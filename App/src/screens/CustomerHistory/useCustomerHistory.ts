@@ -5,6 +5,7 @@ export interface CustomHistoryItem {
     lastName: string
     phoneNumber: string
     timestamp: Date
+    email: string
 }
 
 export const useCustomerHistory = (businessID: string) => {
@@ -29,7 +30,8 @@ export const useCustomerHistory = (businessID: string) => {
                         firstName: customer.firstname as string,
                         lastName: customer.lastname as string,
                         phoneNumber: customer.phonenumber as string,
-                        timestamp: new Date(visit.timestamp as number)
+                        timestamp: new Date(visit.timestamp as number),
+                        email: customer.email as string
                     })
     
                 })
@@ -46,5 +48,11 @@ export const useCustomerHistory = (businessID: string) => {
         })
 
     }
-    return {fetchCustomerHistory}
+
+    const sendEmail = (emails: string[]) => {
+        // POST REQUEST TO BACKEND AND RETURN TRUE/FALSE BASED ON SUCCESS.
+        return true
+    }
+    
+    return {fetchCustomerHistory, sendEmail}
 }

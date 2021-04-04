@@ -1,0 +1,1 @@
+export {CustomerCell} from './CustomerCell';

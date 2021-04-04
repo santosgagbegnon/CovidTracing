@@ -1,0 +1,1 @@
+export const checkmarkIcon = require('./checkmark.png');
