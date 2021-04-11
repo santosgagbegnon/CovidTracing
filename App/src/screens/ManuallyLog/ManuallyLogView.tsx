@@ -33,13 +33,13 @@ const ManuallyLogView = ({ businessID }: Props) => {
     if (success) {
       Toast.show({
         text1: "Customer logged.",
-        position: "bottom",
+        position: "top",
         type: "success",
       });
     } else {
       Toast.show({
         text1: "Failed to log customer.",
-        position: "bottom",
+        position: "top",
         type: "error",
       });
     }

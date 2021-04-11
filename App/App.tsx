@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AppNavigator from "./src/navigation/AppNavigator";
@@ -12,12 +12,14 @@ export default function App() {
   return (
     <React.Fragment>
       {
-    <SignInProvider>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
-    </SignInProvider>}
-    <Toast ref={(ref) => Toast.setRef(ref)} />
+        <SignInProvider>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </SignInProvider>
+      }
+      <StatusBar barStyle="dark-content" />
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </React.Fragment>
   );
 }

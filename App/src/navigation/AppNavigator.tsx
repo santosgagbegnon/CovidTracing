@@ -36,7 +36,10 @@ export default function AppNavigator() {
   return (
     <Stack.Navigator
       screenOptions={({ route }) => {
-        return { headerShown: route.name === "SignIn" ? true : false };
+        return {
+          headerShown: route.name === "SignIn" ? true : false,
+          headerTitle: "",
+        };
       }}
     >
       {isSignedIn.signInStatus && userInfo //if signInStatus is true and userInfo is not undefined the give me the appropriate auth screen
