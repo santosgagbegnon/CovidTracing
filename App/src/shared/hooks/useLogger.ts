@@ -16,9 +16,9 @@ export const useLogger = (businessID: string) => {
         })
     }
 
-    const logNewCustomer = (firstName: string, lastName: string, phoneNumber: string) => {
+    const logNewCustomer = (firstName: string, lastName: string, phoneNumber: string, email: string) => {
         const businessInfo = {id: businessID, timestamp: Date.now()}
-        const newCustomer = {firstname: firstName, lastname: lastName, phonenumber: phoneNumber, accountType: 'personal', email: '-', visits: [businessInfo], businesses: [businessID]}
+        const newCustomer = {firstname: firstName, lastname: lastName, phonenumber: phoneNumber, accountType: 'personal', email: email, visits: [businessInfo], businesses: [businessID]}
         return updateNewCustomerReference(newCustomer)
         .then((customerID) => {
             return updateBusinessReference(businessID, customerID, {id: customerID, timestamp: Date.now()}).catch(() => {return false})

@@ -21,13 +21,20 @@ const ManuallyLogView = ({ businessID }: Props) => {
   const [customerFirstName, setCustomerFristName] = useState("");
   const [customerLastName, setCustomerLastName] = useState("");
   const [customerNumber, setCustomerNumber] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
 
   const logCustomer = useCallback(async () => {
-    console.log(customerFirstName, customerLastName.trim(), customerNumber);
+    console.log(
+      customerFirstName,
+      customerLastName.trim(),
+      customerNumber,
+      customerEmail
+    );
     const success = await logNewCustomer(
       customerFirstName.trim(),
       customerLastName.trim(),
-      customerNumber.trim()
+      customerNumber.trim(),
+      customerEmail.trim()
     );
     Keyboard.dismiss();
     if (success) {
@@ -67,6 +74,12 @@ const ManuallyLogView = ({ businessID }: Props) => {
     setCustomerNumber(event.nativeEvent.previousText + event.nativeEvent.text);
   };
 
+  const onEmailChange = (
+    event: NativeSyntheticEvent<TextInputTextInputEventData>
+  ) => {
+    setCustomerEmail(event.nativeEvent.previousText + event.nativeEvent.text);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.nameContainer}>
@@ -92,6 +105,14 @@ const ManuallyLogView = ({ businessID }: Props) => {
           placeholder="Customer phone number"
           keyboardType="number-pad"
           onTextInput={onNumberChange}
+        />
+      </View>
+      <View style={styles.numberContainer}>
+        <Text style={styles.textInputTitle}>Email</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Customer email"
+          onTextInput={onEmailChange}
         />
       </View>
       <PlainButton title="Log customer" onPress={logCustomer} />
