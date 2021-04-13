@@ -97,7 +97,7 @@ export default function SignIn() {
           placeholder="Email"
           value={emailState}
           onChangeText={(value) => {
-            setEmailState(value);
+            setEmailState(value.trim());
             setSignInErrorState(""); //resetting error code due to new potential input
           }}
         />
@@ -107,7 +107,7 @@ export default function SignIn() {
           placeholder="Password"
           value={passwordState}
           onChangeText={(value) => {
-            setPasswordState(value);
+            setPasswordState(value.trim());
             setSignInErrorState(""); //resetting error code due to new potential input
           }}
         />
