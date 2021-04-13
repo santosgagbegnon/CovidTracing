@@ -6,6 +6,6 @@ declare module '@env' {
         STORAGE_BUCKET,
         MESSAGING_SENDER_ID,
         APP_ID,
-        MEASUREMENT_ID } : string;
+        MEASUREMENT_ID} : string;
     export const ENV: 'dev' | 'prod';
 }

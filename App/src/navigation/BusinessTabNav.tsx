@@ -1,9 +1,7 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import BusinessNavigator from "./BusinessNavigator";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import Toast from "react-native-toast-message";
 import { Ionicons } from "@expo/vector-icons";
 import { CustomerHistoryScreen } from "../screens/CustomerHistory";
 

@@ -46,7 +46,6 @@ export const CustomerHistoryView = ({ businessID }: Props) => {
   }, []);
 
   const onPressSendEmail = () => {
-    console.log(checkedEmails);
     // This will becomes const success = await sendEmail(checkedEmails)
     const success = sendEmail(checkedEmails.map((customer) => customer.email));
 
