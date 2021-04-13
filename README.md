@@ -5,7 +5,7 @@
 An app to help small business keep track of customers.
 
 
-##Starting Huella
+## Starting Huella
 ### 1. Initializing Dependancies and packages
 ```
 yarn
